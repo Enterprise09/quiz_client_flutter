@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:quiz_client_flutter/model/model.quiz.dart';
+import 'package:quiz_client_flutter/screen/screen_result.dart';
 import 'package:quiz_client_flutter/widget/widget_candidate.dart';
 
 class QuizScreen extends StatefulWidget {
@@ -105,6 +106,12 @@ class _QuizScreenState extends State<QuizScreen> {
                       ? null
                       : () {
                           if (_currnetIndex == widget.quizs.length - 1) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ResultScreen(
+                                        answer: _answers,
+                                        quizs: widget.quizs)));
                           } else {
                             _answerState = [false, false, false];
                             _currnetIndex += 1;
