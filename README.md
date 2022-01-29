@@ -1,16 +1,25 @@
 # quiz_client_flutter
 
-A new Flutter project.
+<div>
+    <img src="https://img.shields.io/badge/Flutter-2.8.1-02569B?logo=flutter&logoColor=02569B">
+    <img src="https://img.shields.io/badge/Dart-2.15.1-0175C2?logo=dart&logoColor=0175C2">
+</div>
 
-## Getting Started
+> A new Flutter project.<br />
+> This project is a starting point for a Flutter application.
 
-This project is a starting point for a Flutter application.
+## How it works?
 
-A few resources to get you started if this is your first Flutter project:
+- get data from rest-api server
+  > Django rest-framework
+- check answer and display score to user
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+    <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--tEkPCn_C--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/w070k2j8fa6s3cxvhlgx.jpg" width=500>
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Set up project
+
+- Download<br />
+  `git clone https://github.com/Enterprise09/quiz_client_flutter.git`
+- Install packages<br />
+  `flutter pub get`
+  > you have to download `Flutter sdk` before run this command
