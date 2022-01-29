@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_client_flutter/model/api_adapter.dart';
 import 'package:quiz_client_flutter/model/model.quiz.dart';
 import 'package:quiz_client_flutter/screen/screen_quiz.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -10,23 +13,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Quiz> quizs = [
-    Quiz.fromMap({
-      'title': 'test',
-      'candidates': ['a', 'b', 'c'],
-      'answer': 0
-    }),
-    Quiz.fromMap({
-      'title': 'test',
-      'candidates': ['a', 'b', 'c'],
-      'answer': 0
-    }),
-    Quiz.fromMap({
-      'title': 'test',
-      'candidates': ['a', 'b', 'c'],
-      'answer': 0
-    }),
-  ];
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  List<Quiz> quizs = [];
+  bool isLoading = false;
+
+  _fetchQuizs() async {
+    setState(() {
+      isLoading = true;
+    });
+    final response = await http
+        .get(Uri.parse('https://quiz-server-django.herokuapp.com/quiz/3/'));
+    if (response.statusCode == 200) {
+      setState(() {
+        quizs = parseQuizs(utf8.decode(response.bodyBytes));
+        isLoading = false;
+      });
+    } else {
+      throw Exception('fail to load data');
+    }
+  }
 
   Widget _buildStep(double width, String title) {
     return Container(
@@ -60,8 +65,12 @@ class _HomeScreenState extends State<HomeScreen> {
       child: SafeArea(
         // return Safe app area
         child: Scaffold(
+          key: _scaffoldKey,
           appBar: AppBar(
-            title: const Text('My Quiz App'),
+            centerTitle: true,
+            title: const Text(
+              'My Quiz App',
+            ),
             backgroundColor: Colors.lightBlue,
             leading: Container(), // Remove useless Appbar buttons
           ),
@@ -121,14 +130,29 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       color: Colors.lightBlue,
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => QuizScreen(
-                              quizs: quizs,
+                        _scaffoldKey.currentState?.showSnackBar(
+                          SnackBar(
+                            content: Row(
+                              children: <Widget>[
+                                const CircularProgressIndicator(),
+                                Padding(
+                                  padding: EdgeInsets.only(left: width * 0.036),
+                                ),
+                                const Text('로딩 중 ....')
+                              ],
                             ),
                           ),
                         );
+                        _fetchQuizs().whenComplete(() {
+                          return Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => QuizScreen(
+                                quizs: quizs,
+                              ),
+                            ),
+                          );
+                        });
                       },
                     ),
                   ),

@@ -27,7 +27,10 @@ class ResultScreen extends StatelessWidget {
       child: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('My Quiz App'),
+            centerTitle: true,
+            title: const Center(
+              child: Text('My Quiz App'),
+            ),
             backgroundColor: Colors.lightBlue,
             leading: Container(),
           ),
